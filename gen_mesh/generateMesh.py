@@ -133,7 +133,7 @@ def PLYtoSTL(file_in, file_out):
     f_input.close()
     f_output.close()
 
-def genMesh(directory, useMeshlab, rseed, length, depth, lambdaMin, alpha, Hurst):
+def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
 
     if directory == "":
         directory = "."
@@ -147,24 +147,20 @@ def genMesh(directory, useMeshlab, rseed, length, depth, lambdaMin, alpha, Hurst
     print("\n--------------- Generating point clouds ---------------")
     surfacePts = []
     print("Generating rough fault.")
-    genRoughFault("{0}/roughFault.ply".format(directory), not useMeshlab, surfacePts, rseed, length, depth, lambdaMin, alpha, Hurst)
+    genRoughFault("{0}/roughFault.ply".format(directory), True, surfacePts, rseed, length, depth, lambdaMin, alpha, Hurst)
     print("Generating box.")
     genBox("{0}/box.ply".format(directory), surfacePts)
 
     # Mesh point cloud, create CAD file
     print("\n----------------- Generating CAD file -----------------")
-    if useMeshlab:
-        subprocess.call("meshlabserver -i {0}/roughFault.ply -s mesh_fault.mlx -o {0}/roughFault_processed.ply".format(directory), shell=True)
-        subprocess.call("meshlabserver -i {0}/roughFault_processed.ply {0}/box.ply -s mesh_merge.mlx -o {0}/model.stl".format(directory), shell=True)
-    else:
-        print("Merging PLY-files.")
-        mergePLY("{0}/roughFault.ply".format(directory), "{0}/box.ply".format(directory), "{0}/model.ply".format(directory))
-        print("Converting PLY to STL.")
-        PLYtoSTL("{0}/model.ply".format(directory), "{0}/model.stl".format(directory))
+    print("Merging PLY-files.")
+    mergePLY("{0}/roughFault.ply".format(directory), "{0}/box.ply".format(directory), "{0}/model.ply".format(directory))
+    print("Converting PLY to STL.")
+    PLYtoSTL("{0}/model.ply".format(directory), "{0}/model.stl".format(directory))
 
     # Mesh volume
     print("\n------------------- Generating mesh -------------------")
     subprocess.call("/home/hpc/pr63so/ga25cux2/PUML/build/bin/pumgen -s simmodsuite -l /home/hpc/pr63so/ga25cux2/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl /home/hpc/pr63so/ga25cux2/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
 
 if __name__ == '__main__':
-    genMesh("test_mesh", False, '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)
+    genMesh("test_mesh", '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)
