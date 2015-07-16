@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#SBATCH -o /scratch/pr63so/ga25cux2/rough/script_output.%j.out
+#SBATCH -o /scratch/pr63so/ga25cux2/roughgen/script_output.%j.out
 #SBATCH -D /scratch/pr63so/ga25cux2/
-#SBATCH -J Rough
+#SBATCH -J roughgen
 #SBATCH --mail-type=END
 #SBATCH --mail-user=johannes.klicpera@tum.de
 #SBATCH --export=NONE
@@ -17,7 +17,7 @@ module load python
 export OMP_NUM_THREADS=16
 export mpi_ranks=2
 
-cd /home/hpc/pr63so/ga25cux2/rough
+cd /home/hpc/pr63so/ga25cux2/roughgen
 
 python -u ./parallel_gen.py
 

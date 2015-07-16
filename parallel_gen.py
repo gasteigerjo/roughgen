@@ -54,7 +54,7 @@ if __name__ == '__main__':
     rseed='0254887388'
     minWavelength = 1.
     for alphaExp in frange(-2.0, -3.0, -0.1):
-        dirs.append("/scratch/pr63so/ga25cux2/rough/rseed{}_minwv{}_alpha{}".format(rseed, minWavelength, alphaExp))
+        dirs.append("/scratch/pr63so/ga25cux2/roughgen/rseed{}_minwv{}_alpha{}".format(rseed, minWavelength, alphaExp))
         q.put([dirs[-1] + "_temp", False, rseed, 40., 20., minWavelength, pow(10.,alphaExp), 0.8])
 
     # Write directory names to file

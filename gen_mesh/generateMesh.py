@@ -164,7 +164,7 @@ def genMesh(directory, useMeshlab, rseed, length, depth, lambdaMin, alpha, Hurst
 
     # Mesh volume
     print("\n------------------- Generating mesh -------------------")
-    subprocess.call("/home/hpc/pr63so/ga25cux2/PUML/build/bin/pumgen -s simmodsuite -l /home/hpc/pr63so/ga25cux2/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl /home/hpc/pr63so/ga25cux2/rough/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
+    subprocess.call("/home/hpc/pr63so/ga25cux2/PUML/build/bin/pumgen -s simmodsuite -l /home/hpc/pr63so/ga25cux2/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl /home/hpc/pr63so/ga25cux2/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
 
 if __name__ == '__main__':
     genMesh("test_mesh", False, '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)
