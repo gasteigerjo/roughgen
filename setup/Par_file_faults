@@ -1,0 +1,7 @@
+&DIST2D param='d_c', shapeval='global', val = 0.4 /
+&DIST2D param='mu_s', shapeval='global', val = 0.6778 /
+&DIST2D param='mu_d', shapeval='global', val = 0.525 /
+
+&DIST2D param='localstress', dir='normal', shapeval='global', val=-120e6 /
+&DIST2D param='localstress', dir='strike', shapeval='global', val=81.333e6 /
+&DIST2D param='localstress', dir='dip', shapeval='global', val=63e6 /

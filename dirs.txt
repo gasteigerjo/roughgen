@@ -1,0 +1,6 @@
+(lp0
+S'/scratch/pr63so/ga25cux2/rough/rseed0254887388_minwv1.0_alpha-1.8'
+p1
+aS'/scratch/pr63so/ga25cux2/rough/rseed0254887388_minwv1.0_alpha-1.9'
+p2
+a.
