@@ -2,12 +2,14 @@ import numpy as np
 # pylint: disable=E1101
 import matplotlib.pyplot as plt
 import random
+from math import floor, ceil
 
-def genRoughFault(filename, mesh, surfacePts, rseed, length, depth, lambdaMin, alpha, Hurst):
+def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, lambdaMin, alpha, Hurst):
     # Input parameters:
     # filename: Filename for saving .ply file
     # mesh: Boolian value for defining whether to create a mesh
-    # surfacePts: Empty array for saving the surface points (for creating an intersection later)
+    # surfacePts: Empty array for saving the surface points (for creating an intersection)
+    # centerPts: Empty array for saving the points at central depth (for creating fault receivers)
     # rseed: Seed for random number generator
     # length: Length of the fault (in km)
     # depth: Depth of the fault (in km)
@@ -82,8 +84,13 @@ def genRoughFault(filename, mesh, surfacePts, rseed, length, depth, lambdaMin, a
     # plt.show()
 
     # Save surface points for intersection with box
-    for i in range(0,len(x)):
-        surfacePts.append([x[i],Y[0,i]])
+    for i in range(0, len(x)):
+        surfacePts.append([1e3 * x[i], 1e3 * Y[0,i]])
+
+    # Save points at central depth for creating fault receivers
+    ctrDepth = int(0.5 * len(z))
+    for i in range(0, len(x)):
+        centerPts.append([1e3 * x[i], 1e3 * Y[ctrDepth, i], 0.5 * 1e3 * z[ctrDepth]])
 
     Xf=X.flatten()
     Yf=Y.flatten()
@@ -122,4 +129,5 @@ def genRoughFault(filename, mesh, surfacePts, rseed, length, depth, lambdaMin, a
 
 if __name__ == '__main__':
     surfPts = []
-    genRoughFault("roughFault.ply", True, surfPts, '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)
+    ctrPts = []
+    genRoughFault("roughFault.ply", True, surfPts, ctrPts, '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)

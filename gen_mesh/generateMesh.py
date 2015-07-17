@@ -3,6 +3,7 @@ from generateBox import genBox
 import os
 import subprocess
 from operator import sub
+from math import floor, ceil
 
 def mergePLY(in1, in2, out):
     fin1=open(in1,'r')
@@ -133,6 +134,19 @@ def PLYtoSTL(file_in, file_out):
     f_input.close()
     f_output.close()
 
+def genRecv(filename, ctrPts, num):
+    # Method is asymmetrical! Rounded up intervals on left side (low x).
+    fout = open(filename, 'w')
+    n_rndUp = (len(ctrPts) - 1) % (num + 1)
+    ind = 0
+    for i in range(0, num):
+        if i < n_rndUp:
+            ind += int(ceil((len(ctrPts) - 1) * 1. / (num + 1)))
+        else:
+            ind += int(floor((len(ctrPts) - 1) * 1. / (num + 1)))
+        fout.write(vec_to_str(ctrPts[ind]) + "\n")
+    fout.close()
+
 def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
 
     if directory == "":
@@ -145,11 +159,14 @@ def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
 
     # Generate point clouds
     print("\n--------------- Generating point clouds ---------------")
-    surfacePts = []
-    print("Generating rough fault.")
-    genRoughFault("{0}/roughFault.ply".format(directory), True, surfacePts, rseed, length, depth, lambdaMin, alpha, Hurst)
-    print("Generating box.")
-    genBox("{0}/box.ply".format(directory), surfacePts)
+    surfPts = []
+    ctrPts = []
+    print("Creating rough fault.")
+    genRoughFault("{0}/roughFault.ply".format(directory), True, surfPts, ctrPts, rseed, length, depth, lambdaMin, alpha, Hurst)
+    print("Creating box.")
+    genBox("{0}/box.ply".format(directory), surfPts)
+    print("Creating fault receiver list.")
+    genRecv("{0}/Faultreceiverlist.dat".format(directory), ctrPts, 10)
 
     # Mesh point cloud, create CAD file
     print("\n----------------- Generating CAD file -----------------")
@@ -160,7 +177,7 @@ def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
 
     # Mesh volume
     print("\n------------------- Generating mesh -------------------")
-    subprocess.call("/home/hpc/pr63so/ga25cux2/PUML/build/bin/pumgen -s simmodsuite -l /home/hpc/pr63so/ga25cux2/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl /home/hpc/pr63so/ga25cux2/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
+    subprocess.call("~/PUML/build/bin/pumgen -s simmodsuite -l ~/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl ~/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
 
 if __name__ == '__main__':
     genMesh("test_mesh", '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)
