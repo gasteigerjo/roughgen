@@ -7,6 +7,7 @@
 ! Strength S = 1.0
 &DIST2D param='localstress', dir='strike', shapeval='global', val=72.168e6 /
 
+! Nucleation:
 ! t_0_i = t_s + 0.005*(t_s - t_0)
 ! r from script CritArr.m
-&DIST2D param='localstress', dir='strike', shapeval='circle', xc=0, yc=0, zc=-10e3, r=927.1954, val=81.38184e6 /
+&DIST2D param='localstress', dir='strike', shapeval='y-cylinder', xc=0, yc=0, zc=-10e3, r=927.1954, lz=10e3, val=81.38184e6 /

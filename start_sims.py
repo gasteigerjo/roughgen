@@ -4,6 +4,9 @@ import shutil
 import os
 import subprocess
 
+def changeNucCenter(directory, xc, yc, zc):
+    # Change center in Par_file_faults and output folder in PARAMETERS.par
+
 if __name__ == '__main__':
     # Get directory names
     dirs_file = open("dirs.txt",'r')
@@ -22,7 +25,12 @@ if __name__ == '__main__':
         shutil.copytree("{0}_temp".format(directory), "{0}/mesh".format(directory), symlinks=True)
         shutil.rmtree("{0}_temp".format(directory))
 
-        # Run the simulation
-        os.chdir(directory)
-        subprocess.call("mpiexec.hydra -n $mpi_ranks ./SeisSol_release_generatedKernels_dsnb_hybrid_none_9_5 PARAMETERS.par", shell=True)
+        nuc_xcs = [0]
+        for nuc_xc in nuc_xcs:
+            # Change the nucleation center
+            changeNucCenter(directory, nuc_xc, 0, -10e3)            
+
+            # Run the simulation
+            os.chdir(directory)
+            subprocess.call("mpiexec.hydra -n $mpi_ranks ./SeisSol_release_generatedKernels_dsnb_hybrid_none_9_5 PARAMETERS.par", shell=True)
     os.chdir(oldDir)
