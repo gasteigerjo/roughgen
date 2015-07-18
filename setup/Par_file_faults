@@ -3,5 +3,10 @@
 &DIST2D param='mu_d', shapeval='global', val = 0.525 /
 
 &DIST2D param='localstress', dir='normal', shapeval='global', val=-120e6 /
-&DIST2D param='localstress', dir='strike', shapeval='global', val=81.333e6 /
-&DIST2D param='localstress', dir='dip', shapeval='global', val=63e6 /
+
+! Strength S = 1.0
+&DIST2D param='localstress', dir='strike', shapeval='global', val=72.168e6 /
+
+! t_0_i = t_s + 0.005*(t_s - t_0)
+! r from script CritArr.m
+&DIST2D param='localstress', dir='strike', shapeval='circle', r=927.1954, val=81.38184e6 /

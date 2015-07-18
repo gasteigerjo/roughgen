@@ -25,14 +25,7 @@ XRef = 0.0                  ! Reference point
 YRef = 0
 ZRef = 0
 RF_output_on = 1            ! RF on
-OutputPointType = 5         ! 5 = Pickpoint + Elementwise
-/
-
-&Pickpoint
-printtimeinterval = 10
-OutputMask = 1 1 1 0
-nOutPoints = 10
-PPFileName = 'mesh/Faultreceiverlist.dat'
+OutputPointType = 5         ! 5 = Elementwise + Pickpoint
 /
 
 &Elementwise
@@ -40,6 +33,13 @@ printtimeinterval = 1000       ! Index of printed info at timesteps
 OutputMask = 1 1 1 0 1         ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable 5/ background values
 refinement_strategy = 2
 refinement = 2
+/
+
+&Pickpoint
+printtimeinterval = 10
+OutputMask = 1 1 1 0
+nOutPoints = 10
+PPFileName = 'mesh/Faultreceiverlist.dat'
 /
 
 &SourceType
