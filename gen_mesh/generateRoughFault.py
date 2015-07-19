@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random
 from math import floor, ceil
+from logger import log
 
 def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, lambdaMin, alpha, Hurst):
     # Input parameters:
@@ -71,9 +72,9 @@ def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, l
 
     #scale to targeted Hrms
     target_hrms = alpha * lambdaMax
-    # print("hrms = {}, targeted hrms = {}".format(hrms, target_hrms))
+    # log("hrms = {}, targeted hrms = {}".format(hrms, target_hrms))
     Y = Y * target_hrms / hrms
-    # print("Corrected hrms: {}".format(np.std(Y)))
+    # log("Corrected hrms: {}".format(np.std(Y)))
 
     #for the following study
     # freqs=freqs*target_hrms/hrms

@@ -7,7 +7,7 @@
 #SBATCH --mail-user=johannes.klicpera@tum.de
 #SBATCH --export=NONE
 #SBATCH --time=12:00:00
-#SBATCH --nodes=1
+#SBATCH --nodes=2
 #SBATCH --partition=snb
 #SBATCH --begin=now
 
@@ -15,7 +15,7 @@ source /etc/profile.d/modules.sh
 module load python
 
 export OMP_NUM_THREADS=16
-export mpi_ranks=1
+export mpi_ranks=2
 
 cd /home/hpc/pr63so/ga25cux2/roughgen
 

@@ -4,6 +4,7 @@ import os
 import subprocess
 from operator import sub
 from math import floor, ceil
+from logger import log
 
 def mergePLY(in1, in2, out):
     fin1=open(in1,'r')
@@ -158,26 +159,26 @@ def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
         os.makedirs(directory)
 
     # Generate point clouds
-    print("\n--------------- Generating point clouds ---------------")
+    log("--- Creating point clouds ---")
     surfPts = []
     ctrPts = []
-    print("Creating rough fault.")
+    log("Creating rough fault.")
     genRoughFault("{0}/roughFault.ply".format(directory), True, surfPts, ctrPts, rseed, length, depth, lambdaMin, alpha, Hurst)
-    print("Creating box.")
+    log("Creating box.")
     genBox("{0}/box.ply".format(directory), surfPts)
-    print("Creating fault receiver list.")
+    log("Creating fault receiver list.")
     genRecv("{0}/Faultreceiverlist.dat".format(directory), ctrPts, 10)
 
     # Mesh point cloud, create CAD file
-    print("\n----------------- Generating CAD file -----------------")
-    print("Merging PLY-files.")
+    log("--- Creating CAD file ---")
+    log("Merging PLY-files.")
     mergePLY("{0}/roughFault.ply".format(directory), "{0}/box.ply".format(directory), "{0}/model.ply".format(directory))
-    print("Converting PLY to STL.")
+    log("Converting PLY to STL.")
     PLYtoSTL("{0}/model.ply".format(directory), "{0}/model.stl".format(directory))
 
     # Mesh volume
-    print("\n------------------- Generating mesh -------------------")
-    subprocess.call("~/PUML/build/bin/pumgen -s simmodsuite -l ~/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl ~/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc".format(directory), shell=True)
+    log("--- Creating mesh ---")
+    subprocess.call("~/PUML/build/bin/pumgen -s simmodsuite -l ~/simmodeler/TUM --vtk {0}/mesh_dmp.vtk --stl ~/roughgen/gen_mesh/meshPar.par --prbfc {0}/model.stl $mpi_ranks {0}/rough_mesh.nc > {0}/pumgen.log".format(directory), shell=True)
 
 if __name__ == '__main__':
     genMesh("test_mesh", '0254887388', 40., 20., 1., pow(10.,-1.9), 0.8)

@@ -61,13 +61,12 @@ FixTimeStep = 5                      ! Manually chosen minimum time
 /
 
 &Output
-OutputFile ='./Results/data'
+OutputFile = './Results_xc{xc}/data'
 iOutputMask = 1 1 1 1 1 1 1 1 1      ! Variables output
 iOutputMaskMaterial = 1 1 1          ! Material output
 Format = 10                          ! Format (0=IDL, 1=TECPLOT, 2=IBM DX, 4=GiD))
-Interval = 100000                    ! Index of printed info at timesteps
-TimeInterval = 0.5                   ! Index of printed info at time
-printIntervalCriterion = 1           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
+TimeInterval = 1                     ! Index of printed info at time
+printIntervalCriterion = 2           ! Criterion for index of printed info: 1=timesteps,2=time,3=timesteps+time
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)

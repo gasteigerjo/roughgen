@@ -1,5 +1,6 @@
 from gen_mesh.generateMesh import genMesh
 from multiprocessing import Pool, Queue
+from logger import log
 import pickle
 import os
 import sys, traceback
@@ -35,7 +36,7 @@ def call_catch(func, args):
     try:
         func(*args)
     except:
-        print("Exception in Python thread:")
+        log("Exception in Python thread:")
         traceback.print_exc(file=sys.stdout)
         print
 
