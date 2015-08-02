@@ -29,7 +29,7 @@ def genBox(filename, fault_surface):
 
     # Fault-surface intersection
     for i in range(0, len(fault_surface)):
-        fout.write("%f %f %f\n" %(fault_surface[i][0], fault_surface[i][1], 0.0))
+        fout.write(str(fault_surface[i][0]) + " " + str(fault_surface[i][1]) + " " + str(0.0) + "\n") # do not use the % Operator due to precision consistency
 
     # ----- Faces -----
     # Subsurface box

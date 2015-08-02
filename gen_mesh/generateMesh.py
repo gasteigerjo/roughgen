@@ -156,7 +156,7 @@ def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
         directory = directory[:-1]
 
     if not os.path.exists(directory):
-        os.makedirs(directory)
+        os.mkdir(directory)
 
     # Generate point clouds
     log("--- Creating point clouds ---")
@@ -167,7 +167,7 @@ def genMesh(directory, rseed, length, depth, lambdaMin, alpha, Hurst):
     log("Creating box.")
     genBox("{0}/box.ply".format(directory), surfPts)
     log("Creating fault receiver list.")
-    genRecv("{0}/Faultreceiverlist.dat".format(directory), ctrPts, 10)
+    genRecv("{0}/Faultreceiverlist.dat".format(directory), ctrPts, 100)
 
     # Mesh point cloud, create CAD file
     log("--- Creating CAD file ---")

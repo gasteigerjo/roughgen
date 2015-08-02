@@ -14,7 +14,7 @@ def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, l
     # rseed: Seed for random number generator
     # length: Length of the fault (in km)
     # depth: Depth of the fault (in km)
-    # lambdaMin: Minimal wavelength
+    # lambdaMin: Minimal wavelength (in km)
     # alpha: Amplitude to wavelength ratio
     # Hurst: Hurst exponent
 
@@ -91,7 +91,7 @@ def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, l
     # Save points at central depth for creating fault receivers
     ctrDepth = int(0.5 * len(z))
     for i in range(0, len(x)):
-        centerPts.append([1e3 * x[i], 1e3 * Y[ctrDepth, i], 0.5 * 1e3 * z[ctrDepth]])
+        centerPts.append([1e3 * x[i], 1e3 * Y[ctrDepth, i], -1e3 * z[ctrDepth]])
 
     Xf=X.flatten()
     Yf=Y.flatten()
@@ -115,9 +115,9 @@ def genRoughFault(filename, mesh, surfacePts, centerPts, rseed, length, depth, l
     # Vertices
     for i in range(0, len(Yf)):
         if Zf[i] == 0: # prevent -0.000000
-            fout.write("%f %f %f\n" %(1e3*Xf[i], 1e3*Yf[i], 0.))
+            fout.write(str(1e3*Xf[i]) + " " + str(1e3*Yf[i]) + " " + str(0.) + "\n") # do not use the % Operator due to precision consistency
         else:
-            fout.write("%f %f %f\n" %(1e3*Xf[i], 1e3*Yf[i], -1e3*Zf[i]))
+            fout.write(str(1e3*Xf[i]) + " " + str(1e3*Yf[i]) + " " + str(-1e3*Zf[i]) + "\n") # do not use the % Operator due to precision consistency
 
     # Faces
     if mesh:

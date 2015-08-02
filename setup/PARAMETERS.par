@@ -32,13 +32,13 @@ OutputPointType = 5         ! 5 = Elementwise + Pickpoint
 printtimeinterval = 1000       ! Index of printed info at timesteps
 OutputMask = 1 1 1 0 1         ! output 1/ yes, 0/ no - position: 1/ slip rate 2/ stress 3/ normal velocity 4/ in case of rate and state output friction and state variable 5/ background values
 refinement_strategy = 2
-refinement = 2
+refinement = 1
 /
 
 &Pickpoint
 printtimeinterval = 10
 OutputMask = 1 1 1 0
-nOutPoints = 10
+nOutPoints = 100
 PPFileName = 'mesh/Faultreceiverlist.dat'
 /
 
@@ -70,7 +70,7 @@ printIntervalCriterion = 2           ! Criterion for index of printed info: 1=ti
 pickdt = 0.005                       ! Pickpoint Sampling
 pickDtType = 1                       ! Pickpoint Type
 FaultOutputFlag = 1                  ! DR output (add this line only if DR is active)
-nRecordPoints = 12                   ! number of Record points which are read from file
+nRecordPoints = 32                   ! number of Record points which are read from file
 RFileName = 'RecPoints.dat'          ! Record Points in extra file
 /
 

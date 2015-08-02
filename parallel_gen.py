@@ -56,9 +56,9 @@ if __name__ == '__main__':
     rseed='0254887388'
     minWavelength = 1.
     alphaExp = -2.0
-    # for alphaExp in frange(-2.0, -3.0, -0.1):
-    dirs.append(scratch + "/roughgen/rseed{}_minwv{}_alpha{}".format(rseed, minWavelength, alphaExp))
-    q.put([dirs[-1] + "_temp", rseed, 40., 20., minWavelength, pow(10.,alphaExp), 0.8])
+    for alphaExp in frange(-2.0, -2.4, -0.2):
+        dirs.append(scratch + "/roughgen/rseed{}_minwv{}_alpha{}".format(rseed, minWavelength, alphaExp))
+        q.put([dirs[-1] + "_temp", rseed, 40., 20., minWavelength, pow(10.,alphaExp), 0.8])
 
     # Write directory names to file
     dirs_file = open("dirs.txt",'w')
